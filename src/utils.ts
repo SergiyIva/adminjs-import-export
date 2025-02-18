@@ -55,7 +55,7 @@ const upsertRecords = async (
   const ids = records.map(records => records[idFieldName]).filter(Boolean);
   const existingRecords = await resource.findMany(ids);
   const knownIds = new Set(
-    existingRecords.map(record => record.params[idFieldName])
+    existingRecords.map(record => record.params[idFieldName]).map(String)
   );
   return Promise.all(
     records.map(async record => {

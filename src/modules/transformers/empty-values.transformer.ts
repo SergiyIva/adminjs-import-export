@@ -3,10 +3,6 @@ export const emptyValuesTransformer: (
   operation: 'import' | 'export',
   options?: { undefinedValue?: string; nullValue?: string }
 ) => Record<string, any> = (record, operation, options = {}) => {
-  if (!options?.nullValue && !options?.undefinedValue) {
-    return record;
-  }
-
   const { nullValue, undefinedValue } = options;
   const transformedEntries = Object.entries(record).map(([key, value]) => {
     if (operation === 'export') {
@@ -23,6 +19,12 @@ export const emptyValuesTransformer: (
       }
       if (undefinedValue !== undefined && value === undefinedValue) {
         return [key, undefined];
+      }
+      if(value === "true" || value === "false") {
+        return [key, value === "true"];
+      }
+      if (value === "[]"){
+        return [key, []];
       }
     }
 
