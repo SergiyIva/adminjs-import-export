@@ -6,6 +6,7 @@ export const emptyValuesTransformer: (
   const { nullValue, undefinedValue } = options;
   const transformedEntries = Object.entries(record).map(([key, value]) => {
     if (operation === 'export') {
+      if (value instanceof Date) return [key, value.toISOString()];
       if (nullValue !== undefined && value === null) {
         return [key, nullValue];
       }
@@ -20,10 +21,14 @@ export const emptyValuesTransformer: (
       if (undefinedValue !== undefined && value === undefinedValue) {
         return [key, undefined];
       }
-      if(value === "true" || value === "false") {
-        return [key, value === "true"];
+      if (value === 'true' || value === 'false') {
+        return [key, value === 'true'];
       }
-      if (value === "[]"){
+      if (Array.isArray(value)) {
+        value = value.filter(i => i !== '' && i !== undefined);
+        if (value.length === 0) return [key, []];
+      }
+      if (value === '[]') {
         return [key, []];
       }
     }

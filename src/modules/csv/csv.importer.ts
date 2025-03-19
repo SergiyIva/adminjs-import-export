@@ -1,15 +1,19 @@
-import csv from 'csvtojson';
+import { csv2json } from 'json-2-csv';
 
 import { Importer } from '../../parsers.js';
 import { saveRecords } from '../../utils.js';
 import { emptyValuesTransformer } from '../transformers/empty-values.transformer.js';
+import { unflatten } from 'flat';
 
 export const csvImporter: Importer = async (csvString, resource, options) => {
   const importProperties = options?.properties?.import?.csv;
 
-  const records = await csv().fromString(csvString);
+  const records = csv2json(csvString);
 
-  const transformedRecords = records.map(record =>
+  const unflattenRecords = records.map(record =>
+    unflatten<object, Record<string, unknown>>(record)
+  );
+  const transformedRecords = unflattenRecords.map(record =>
     emptyValuesTransformer(record, 'import', importProperties)
   );
 

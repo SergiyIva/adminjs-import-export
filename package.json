@@ -1,6 +1,6 @@
 {
-  "name": "@adminjs/import-export",
-  "version": "3.0.0",
+  "name": "@sergiyiva/adminjs-import-export",
+  "version": "4.0.0",
   "type": "module",
   "exports": {
     ".": {
@@ -9,7 +9,7 @@
     }
   },
   "private": false,
-  "repository": "git@github.com:SoftwareBrothers/adminjs-import-export.git",
+  "repository": "git@github.com:SergiyIva/adminjs-import-export.git",
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "release": "semantic-release",
@@ -50,6 +50,8 @@
   "dependencies": {
     "csvtojson": "^2.0.10",
     "file-saver": "^2.0.5",
+    "flat": "^6.0.1",
+    "json-2-csv": "^5.5.9",
     "json2csv": "^6.0.0-alpha.2",
     "xml": "^1.0.1",
     "xml2js": "^0.4.23"

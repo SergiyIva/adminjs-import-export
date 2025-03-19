@@ -61,7 +61,7 @@ const upsertRecords = async (
     records.map(async record => {
       debugger;
       try {
-        const recordId = record[idFieldName];
+        const recordId = record[idFieldName].toString();
         if (knownIds.has(recordId)) {
           return resource.update(recordId, record);
         }

@@ -1,9 +1,9 @@
-import { parse } from 'json2csv';
+import { json2csv } from 'json-2-csv';
 import { Exporter } from '../../parsers.js';
 import { emptyValuesTransformer } from '../transformers/empty-values.transformer.js';
 
 export const csvExporter: Exporter = (records, options) => {
-  return parse(
+  return json2csv(
     records.map(record =>
       emptyValuesTransformer(
         record.params,
