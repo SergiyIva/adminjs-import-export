@@ -1,7 +1,7 @@
-export const emptyValuesTransformer: (
+export const valuesTransformer: (
   record: Record<string, any>,
   operation: 'import' | 'export',
-  options?: { undefinedValue?: string; nullValue?: string }
+  options?: { undefinedValue?: string; nullValue?: string },
 ) => Record<string, any> = (record, operation, options = {}) => {
   const { nullValue, undefinedValue } = options;
   const transformedEntries = Object.entries(record).map(([key, value]) => {
@@ -21,7 +21,7 @@ export const emptyValuesTransformer: (
       if (undefinedValue !== undefined && value === undefinedValue) {
         return [key, undefined];
       }
-      if (value === 'true' || value === 'false') {
+      if (value.toLowerCase() === 'true' || value.toLowerCase() === 'false') {
         return [key, value === 'true'];
       }
       if (Array.isArray(value)) {
@@ -31,6 +31,9 @@ export const emptyValuesTransformer: (
       if (value === '[]') {
         return [key, []];
       }
+      if (isValidDate(value.trim())) {
+        return [key, value.trim()];
+      }
     }
 
     return [key, value];
@@ -38,3 +41,8 @@ export const emptyValuesTransformer: (
 
   return Object.fromEntries(transformedEntries);
 };
+
+function isValidDate(dateString: string) {
+  const date = new Date(dateString);
+  return !isNaN(date.getTime());
+}
